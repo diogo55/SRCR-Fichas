@@ -76,15 +76,15 @@ excepçao(jogo(9,ii,C)) :- cercade(C,3000).
 
 %Invariantes
 
-+jogo(I,A,C) :-	(solucoes(As,jogo(I,As,_),S),
++jogo(I,A,C) ::	(solucoes(As,jogo(I,As,_),S),
 				comprimento(S,N),
 				N ==1).
 
-+jogo(I,A,C) :- (solucoes(Is,jogo(Is,A,_),S),
++jogo(I,A,C) :: (solucoes(Is,jogo(Is,A,_),S),
 				comprimento(S,N),
 				N<=3).
 
-+jogo(I,A,C) :- (solucoes(IS,jogo(IS,A,_),S),
++jogo(I,A,C) :: (solucoes(IS,jogo(IS,A,_),S),
 				nao(seguido(S))).
 
 

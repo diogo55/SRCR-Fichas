@@ -7,6 +7,9 @@
 :- dynamic filho/3.
 :- dynamic nasceu/2.
 :- dynamic data/3.
+:- dynamic servico/2.
+:- dynamic atoMedico/4.
+
 
 nao(Q) :- Q,!,fail.
 nao(Q).
@@ -23,8 +26,16 @@ comprimento( S,N ) :-
 
 evolucao( Termo ) :-
     solucoes( Invariante,+Termo::Invariante,Lista ),
-    teste( Lista ),
-    insercao( Termo ).
+    insercao( Termo ),
+    teste( Lista ).
+
+retrocesso(F) :- 
+	solucoes(I,-F::I,L),
+	testar(L),
+	remove(F).
+
+
+remove(T) :- retract(T).
 
 insercao( Termo ) :-
     assert( Termo ).
@@ -45,11 +56,11 @@ servico("Obstetricia","Maria").
 servico("Obstetricia","Mariana").
 servico("Geriatria","Sofia").
 servico("Geriatria","Susana").
+servico("tuaprima","tuamae").
 
-excepçao(servico(xpt007,"Teodora")).
-nulo(xpt007).
+excepcao(servico(xpt007,"Teodora")).
 
-excepçao(servico(np9,"Zulmira")).
+excepcao(servico(np9,"Zulmira")).
 nulo(np9).
 +servico(S,"Zulmira") :- (solucoes((SS,"Zulmira"),(servico(SS,"Zulmira"),nao(nulo(SS))),L),
 				 comprimento(L,C),
@@ -60,25 +71,21 @@ nulo(np9).
 atoMedico("Penso","Ana","Joana","sabado").
 atoMedico("Gesso","Amelia","Jose","domingo").
 
-excepçao(atoMedico(xpt017,"Mariana","Joaquina","domingo")).
-nulo(xpt017).
+excepcao(atoMedico(xpt017,"Mariana","Joaquina","domingo")).
 
-excepçao(atoMedico("Domicilio","Maria",xpt121,xpt251)).
-nulo(xpt121).
-nulo(xpt251).
+excepcao(atoMedico("Domicilio","Maria",xpt121,xpt251)).
 
-excepçao(atoMedico("Domicilio","Susana","Joao","segunda")).
-excepçao(atoMedico("Domicilio","Susana","Jose","segunda")).
+excepcao(atoMedico("Domicilio","Susana","Joao","segunda")).
+excepcao(atoMedico("Domicilio","Susana","Jose","segunda")).
 
-excepçao(atoMedico("Sutura",xpt313,"Josue","segunda")).
-nulo(xpto313).
+excepcao(atoMedico("Sutura",xpt313,"Josue","segunda")).
 
-excepçao(atoMedico("Sutura","Maria","Josefa","terca")).
-excepçao(atoMedico("Sutura","Maria","Josefa","sexta")).
-excepçao(atoMedico("Sutura","Mariana","Josefa","terca")).
-excepçao(atoMedico("Sutura","Mariana","Josefa","sexta")).
+excepcao(atoMedico("Sutura","Maria","Josefa","terca")).
+excepcao(atoMedico("Sutura","Maria","Josefa","sexta")).
+excepcao(atoMedico("Sutura","Mariana","Josefa","terca")).
+excepcao(atoMedico("Sutura","Mariana","Josefa","sexta")).
 
-excepçao(atoMedico("Penso","Ana","Jacinta",X)) :-
+excepcao(atoMedico("Penso","Ana","Jacinta",X)) :-
 		(X="segunda";X="terca";X="quarta";
 		X="quinta";X="sexta").
 
@@ -86,19 +93,19 @@ excepçao(atoMedico("Penso","Ana","Jacinta",X)) :-
 %impede registos de atos medicos em feriados
 
 feriado("domingo").
-+atoMedico(A,M,U,D) :- (solucoes((A,M,U,D),(atoMedico(A,M,U,D),nao(feriado(D))),L),
-				 comprimento(L,C),
-				 C==0).
++atoMedico(A,M,U,D) :: (solucoes( (A,M,U,D),(atoMedico(A,M,U,D),feriado(D)),L),
+				 		comprimento(L,C),
+						 C==0).
 
 %impede remoção de profissionais com atos registados
 
--servico(S,M) :- (solucoes(A,atoMedico(A,M,_,_),L),
+-servico(S,M) :: (solucoes((A),atoMedico(A,M,_,_),L),
 				comprimento(L,C),
 				C==0).
 
 %prova a falsidade
 -servico(S,M) :-
-	nao(servico(S,M)), nao(excepçao(servico(S,M))).
+	nao(servico(S,M)), nao(excepcao(servico(S,M))).
 
 -atoMedico(A,M,U,D) :-
-	nao(atoMedico(A,M,U,D)), nao(excepçao(atoMedico(A,M,U,D))).
+	nao(atoMedico(A,M,U,D)), nao(excepcao(atoMedico(A,M,U,D))).

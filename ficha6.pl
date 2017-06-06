@@ -36,7 +36,7 @@ voo(X) :- ave(X), nao(excepcao(voo(X))).
 -voo(X) :- mamifero(X), nao(excepcao(-voo(X))).
 voo(X):- mamifero(X), excepcao(-voo(X)).
 
--voa(tweety).
+-voo(tweety).
 
 %Extensão do predicado ave: animal -> {V,F}
 
