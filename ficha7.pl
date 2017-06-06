@@ -85,9 +85,8 @@ excepçao(jogo(9,ii,C)) :- cercade(C,3000).
 				N<=3).
 
 +jogo(I,A,C) :- (solucoes(IS,jogo(IS,A,_),S),
-				seguido(S)).
+				nao(seguido(S))).
 
-+jogo(I,A,C) :- 
 
 head([H|T],H).
 
