@@ -53,9 +53,10 @@ apagar(X,[H|T],[H|R]):-
 
 apagarTudo(X,[],[]).
 apagarTudo(X,[X|T],R):-
-	apagarTudo(X,T,R).
+    apagarTudo(X,T,R).
 apagarTudo(X,[H|T],[H|R]):-
-	apagarTudo(X,T,R).
+    X\=H,
+    apagarTudo(X,T,R).
 
 %Extensão do predicado adicionar: Elemento, Lista,ListaResultante -> {V,F}
 
