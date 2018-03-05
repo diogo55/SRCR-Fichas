@@ -44,10 +44,10 @@ quantos([H|T],R) :-
 
 %Extensão do predicado apagar: Elemento, Lista, ListaResultante -> {V,F}
 
-apagar(X,[],[]).
 apagar(X,[X|T],T).
-apagar(X,[H|T],[H|R]):-
-	apagar(X,T,R).
+apagar(X,[H|R],[H|L]):-
+    X\= H,
+    apagar(X,R,L).
 
 %Extensão do predicado apagarTudo: Elemento, Lista, ListaResultante -> {V,F}
 
